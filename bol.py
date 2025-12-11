@@ -6,10 +6,10 @@ input_root = "C:/Users/win11/Documents/Projeler/ML - klasik müzik dönemi/ham" 
 output_root = "C:/Users/win11/Documents/Projeler/ML - klasik müzik dönemi/muzikler"  # Parçaların kaydedileceği klasör
 
 # Her dönem için ilgili klasörler
-periods = ["baroque", "classic", "romantic"]
+periods = ["modern"]
 
 # Parça süresi (30 saniye)
-segment_duration = 30 * 1000  # 30 saniye (milisaniye cinsinden)
+segment_duration = 15 * 1000  # 30 saniye (milisaniye cinsinden)
 
 # Her dönem için işlem yapalım
 for period in periods:

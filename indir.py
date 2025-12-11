@@ -6,7 +6,7 @@ from pathlib import Path
 # Ayarlar
 input_folder = "playlistler"
 output_root = "muzikler"
-segment_duration = 30 * 1000  # 30 saniye
+segment_duration = 15 * 1000  # 15 saniye
 
 # YouTube indirici ayarları
 ydl_opts = {
