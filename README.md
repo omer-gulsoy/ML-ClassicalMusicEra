@@ -1,74 +1,69 @@
+# 🎵 ML-ClassicalMusicEra: Classical Music Era Classification
 
-🎼 Klasik Müzik Dönemi Sınıflandırması Veri Toplama
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![HuggingFace](https://img.shields.io/badge/Transformers-Audio-yellow) ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-Bu proje, klasik müzik eserlerini Barok, Klasik, Romantik ve Modern dönemlerine ayırarak veri seti oluşturmayı amaçlar. Spotify çalma listelerinden ses dosyaları indirip 30 saniyelik parçalara bölünür. Makine öğrenmesi projesinde kullanılmak üzere yapılandırılmıştır.
+This project presents a Transformer-based deep learning model capable of processing raw audio signals to classify classical music compositions into four distinct eras: **Baroque, Classical, Romantic, and Modern**.
 
-📁 Klasör Yapısı
+Instead of traditional feature extraction methods, the project utilizes state-of-the-art "Pre-trained" audio models such as **Wav2Vec2, HuBERT, and WavLM** to predict the musical era directly from sound waves.
 
-ML - klasik müzik dönemi/
-│
-├── indir.py       # Spotify'dan ses dosyalarını indirir ve böler
-├── bol.py         # Daha önce indirilen ama bölünememiş ses dosyalarını 30s parçalara ayırır
-│
-├── ham/           # Spotify'dan indirilen orijinal .wav dosyaları
-│   ├── baroque/
-│   ├── classic/
-│   ├── romantic/
-│   └── modern/
-│
-└── muzikler/      # 30 saniyelik segmentlere ayrılmış dosyalar
-    ├── baroque/
-    │   └── Parça Adı/
-    │       ├── part1.wav
-    │       ├── part2.wav
-    │       └── ...
-    ├── classic/
-    ├── romantic/
-    └── modern/
+## 🎯 Project Goal
 
-⚙️ Gereksinimler
+With the exponential growth of online multimedia content, automated classification of large-scale audio data has become crucial. This study aims to detect the musical era of a piece by analyzing its sonic characteristics (rhythm, harmony, instrumentation) using data collected from YouTube.
 
-- Python 3.10+
-- ffmpeg (sisteme kurulu ve PATH'e eklenmiş olmalı)
+## 🛠️ Models Used (Transformers)
 
-Python Paketleri
+Five different models were fine-tuned and tested using the Hugging Face library:
 
-pip install -r requirements.txt
+| Model | Description |
+| :--- | :--- |
+| **HuBERT Base** | (facebook/hubert-base-ls960) - Learns hidden representations for robust feature extraction. |
+| **WavLM Base** | (microsoft/wavlm-base) - Developed by Microsoft, highly resistant to noisy environments. |
+| **Wav2Vec2 Base** | (facebook/wav2vec2-base-960h) - Effective in extracting meaningful representations from speech/audio signals. |
+| **Distil-Wav2Vec2** | (OthmaneJ/distil-wav2vec2) - A lighter and faster optimized version. |
+| **Wav2Vec2-KS** | (superb/wav2vec2-base-superb-ks) - Optimized for Keyword Spotting tasks. |
 
-Eğer requirements.txt dosyası yoksa, aşağıdaki paketleri tek tek yükleyebilirsin:
+## 📂 Dataset & Pre-processing
 
-pip install yt-dlp
-pip install pydub
+The dataset was constructed by scraping YouTube using the `pytube` library.
 
-🔧 Kullanım
+* **Source:** YouTube (Baroque, Classical, Romantic, Modern era playlists).
+* **Size:** Total of **21,437** audio files. Approximately 5,000 balanced samples per era.
+* **Format:** Mono channel `.wav` files resampled to **16 kHz**.
+* **Segmentation:** Each piece was split into **15-second** chunks for labeling.
 
-1. Müzik İndirme ve Parçalama
+## 📊 Experimental Results
 
-python indir.py
+Model performance was evaluated using Accuracy, F1-Score, Precision, Recall, and ROC AUC metrics.
 
-Bu script:
-- linkler.txt içindeki çalma listelerini okur.
-- ham/ klasörüne müzikleri indirir.
-- Her müziği 30 saniyelik parçalara böler.
-- Sonuçları muzikler/ klasörüne kaydeder.
-- Alan tasarrufu için orijinal dosyayı siler.
+* Training was conducted on **Google Colab (T4 GPU)**.
+* Confusion Matrices and Loss graphs were analyzed for each model.
+* **HuBERT** and **WavLM** demonstrated superior performance in capturing the complex distinctions between musical eras.
 
-2. Bölünmemiş Dosyaları Parçalama
+## 🚀 Installation
 
-python bol.py
+To run this project locally:
 
-Bu script:
-- ham/ klasöründe zaten indirilen dosyaları kontrol eder.
-- Parçalanmamış olanları 30 saniyelik bölümlere ayırır.
-- muzikler/ klasörüne yerleştirir.
-- İşlem bitince orijinali siler.
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/omer-gulsoy/ML-ClassicalMusicEra.git](https://github.com/omer-gulsoy/ML-ClassicalMusicEra.git)
+    cd ML-ClassicalMusicEra
+    ```
 
-📌 Notlar
+2.  **Install dependencies:**
+    ```bash
+    pip install torch transformers librosa pytube moviepy torchaudio numpy pandas
+    ```
 
-- Her döneme ait müzikler ayrı klasörlerde organize edilmelidir.
-- Dosya adlarında Türkçe karakter ve boşluklar yerine - veya _ kullanılması önerilir.
-- Yeterli disk alanı gereklidir; indir.py ve bol.py, işlemlerden sonra ham dosyaları silerek yer kazandırır.
+3.  **Data Collection (Optional):**
+    Run the `data_collection.py` script (if available) to scrape new data from YouTube.
 
-👨‍💻 Hazırlayan
+## 👥 Team & Acknowledgements
 
-Bu proje bir makine öğrenmesi dersi kapsamında klasik müzik dönemini ses verisinden tahmin etmeye yönelik veri hazırlama adımıdır.
+* **Developer:** Ömer Hasan GÜLSOY (Kocaeli University, Information Systems Engineering)
+* **Contributors:** Ecem Su YILMAZ, Halit Mert ARTUN
+* **Advisor:** Assoc. Prof. Dr. Zeynep Hilal KİLİMCİ
+
+Special thanks to the open-source community and the musicians whose work inspired this project.
+
+---
+*This project was developed for the 2024-2025 Introduction to Machine Learning Course.*
